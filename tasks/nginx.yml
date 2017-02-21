@@ -1,0 +1,16 @@
+---
+- name: install nginx
+  apt: name=nginx state=present
+- name: copy site configuration
+  template:
+    src=phpapp1.conf.j2
+    dest=/etc/nginx/sites-available/phpapp1.conf
+  notify:
+    - reload apache
+- name: symlink configuration
+  file:
+    src: /etc/nginx/sites-available/phpapp1.conf
+    dest: /etc/nginx/sites-enabled/phpapp1.conf
+    state: link
+  notify:
+    - reload apache

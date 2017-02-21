@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  vars:
+    hostname: phpapp1
+  handlers:
+  - name: reload nginx
+    service: name=nginx state=reloaded
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+    - include: tasks/nginx.yml
+    - include: tasks/pgsql.yml
+    - include: tasks/php.yml
